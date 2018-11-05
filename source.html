@@ -30,6 +30,7 @@
             $('#withtoken').click(function() {
                 if ($('#encrypted').val() == '') {
                     alert('Please click on Generate Token & Encrypt Token first');
+                    return false;
                 }
                 window.location = 'target.html?nxjtoken=' + $('#encrypted').val();
             });
