@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Time Stamp Tokens</title>
+    <script src="//code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js"></script>
+    <script type="text/javascript">
+
+        // Call this code when the page is done loading.
+        $(function () {
+            $('#generate').click(function() {
+                var ts = new Date().getTime();
+                ts = Math.round(ts/1000);
+                var parts = {
+                    "iat": ts,
+                    "sub": "lenovo epp access",
+                    "exp": ts + 600,
+                    "iss": "perksatwork.com",
+                    "aud": "lenovo.com"
+                };
+                $('#generated').val(JSON.stringify(parts));
+            });
+            $('#encrypt').click(function () {
+                // Encrypt with the public key...
+                var encrypt = new JSEncrypt();
+                encrypt.setPublicKey($('#pubkey').val());
+                var encrypted = encrypt.encrypt($('#generated').val());
+                $('#encrypted').val(encrypted);
+            });
+            $('#withtoken').click(function() {
+                window.location = 'target.html?nxjtoken=' + $('#encrypted').val();
+            });
+        });
+    </script>
+    <style>
+        body {
+            width:1120px;
+            margin:0 auto;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Token Handshake Tester<br><small><small>Source Sends an Expiring Token</small></small></h1>
+    <label for="pubkey">Public Key</label><br />
+<textarea id="pubkey" rows="10" cols="80">-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+gwQco1KRMDSmXSMkDwIDAQAB
+-----END PUBLIC KEY-----</textarea><br /><br />
+    
+    <br><br>Step 1<br>
+    <label for="generated">Generate a Token</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="generate" type="button" value="Generate New Token" /><br /><br />
+    <textarea id="generated" name="generated" type="text" rows=10 cols=80></textarea><br />
+    
+    <br><br>Step 2<br>
+    <label for="encrypted">Encrypt Token</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="encrypt" type="button" value="Encrypt Token" /><br /><br />
+    <textarea id="encrypted" name="encrypted" type="text" rows=10 cols=80></textarea><br />
+    
+    <br><br>Step 3<br>
+    <a href="#" id="withtoken">Go To Target with Token</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="#" id="withouttoken">Without Token</a>
+
+    <br><br><br>
+</body>
+
+</html>
