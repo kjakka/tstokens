@@ -14,10 +14,9 @@
                 ts = Math.round(ts/1000);
                 var parts = {
                     "iat": ts,
-                    "sub": "lenovo epp access",
+                    "sub": "epp access",
                     "exp": ts + 600,
                     "iss": "perksatwork.com",
-                    "aud": "lenovo.com"
                 };
                 $('#generated').val(JSON.stringify(parts));
             });
@@ -29,6 +28,9 @@
                 $('#encrypted').val(encrypted);
             });
             $('#withtoken').click(function() {
+                if ($('#encrypted').val() == '') {
+                    alert('Please click on Generate Token & Encrypt Token first');
+                }
                 window.location = 'target.html?nxjtoken=' + $('#encrypted').val();
             });
         });
