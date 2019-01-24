@@ -1,0 +1,16 @@
+<html>
+<head>
+	<title>Lnv Cookie Checker</title>
+</head>
+
+<body>
+	<h2>Cookie Checker</h2>
+	<script>
+		var s = document.createElement('script');
+		s.setAttribute('src', 'https://dev-perksatwork.nextjump.com/pixel/verify?mtag=1nf');
+		s.setAttribute('type', 'text/javascript');
+		document.getElementsByTagName('head')[0].appendChild(s);
+		console.log(document.cookie);
+	</script>
+</body>
+</html>
